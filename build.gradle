@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.6.0'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -30,4 +31,44 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    // finalizedBy : 이(test) 작업에 대해 주어진 종료자 작업을 추가
+    finalizedBy jacocoTestReport // test 작업이 끝나고 jacocoTestReport를 실행
+}
+jacocoTestReport {
+    // dependsOn : 이 작업에 지정된 종속성을 추가
+    dependsOn test // jacocoTestReport 에 test라는 종속성을 추가
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['org.gradle.*']
+
+            limit {
+                counter = 'METHOD'
+                value = 'COVEREDRATIO'
+                maximum = 0.5
+            }
+        }
+    }
 }
