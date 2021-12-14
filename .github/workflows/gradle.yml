@@ -36,3 +36,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+
+    - name: Generate JaCoCo Badge
+      uses: cicirello/jacoco-badge-generator@v2.5.0
+      with:
+        generate-branches-badge: true
+
