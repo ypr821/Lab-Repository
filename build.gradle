@@ -46,7 +46,7 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.required = false
-        csv.required = true
+        csv.enabled true
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
