@@ -39,12 +39,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
-  - name: Test with Gradle
-    run: ./gradlew test
-  - name: Upload coverage to Codecov
-    uses: codecov/codecov-action@v1
-    with:
-      token: ${{ secrets.CODECOV_TOKEN }}
-      file: ./build/reports/jacoco/test/jacocoTestReport.xml
+    - name: Test with Gradle
+      run: ./gradlew test
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./build/reports/jacoco/test/jacocoTestReport.xml
+
+
+
+
 
 
