@@ -22,10 +22,13 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: gradle
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew build
+
       - name: build result to slack
         uses: 8398a7/action-slack@v3
         with:
@@ -36,29 +39,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
 
+  - name: Test with Gradle
+    run: ./gradlew test
+  - name: Upload coverage to Codecov
+    uses: codecov/codecov-action@v1
+    with:
+      token: ${{ secrets.CODECOV_TOKEN }}
+      file: ./build/reports/jacoco/test/jacocoTestReport.xml
 
-      - name: Run Tests
-        run: ./gradlew test
-
-      - name: Run Test Coverage
-        run: ./gradlew jacocoTestReport
-
-      - name: Generate JaCoCo Badge
-        uses: cicirello/jacoco-badge-generator@v2
-        with:
-          generate-branches-badge: true
-          jacoco-csv-file: build/jacoco/test/jacocoTestReport.csv
-
-
-      - name: Commit and push the badge (if it changed)
-        uses: EndBug/add-and-commit@v7
-        with:
-          default_author: github_actions
-          message: 'commit badge'
-          add: '*.svg'
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
 
