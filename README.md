@@ -1,1 +1,2 @@
-[![Coverage](.github/badges/jacoco.svg)](https://github.com/ypr821/Lab-Repository/actions/workflows/gradle.yml)
+![coverage](.github/badges/jacoco.svg)
+![branches coverage](.github/badges/branches.svg)
